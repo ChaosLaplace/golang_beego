@@ -1,0 +1,88 @@
+# docker-compose up -d
+# docker rmi $(docker images -q) -f
+
+# beego
+# docker cp beego:/go/src/beego ./golang
+
+version: '3'
+services:
+  beego:
+    # image: chaoslaplace/beego
+    build: ./golang
+    container_name: beego
+    restart: always
+    environment:
+      beego_port_in: ${beego_port_in}
+    ports:
+      - ${beego_port_out}:${beego_port_in}
+    # depends_on:
+    #   - mariadb
+    #   - redis
+    # command: sh /go/src/beego.sh
+    # command: bee run
+    # command: nohup go run /go/src/beego/main.go &
+
+# hyperf
+# docker cp hyperf:/hyperf-skeleton ./docker_hyperf
+
+# # 0.下载并运行 hyperf/hyperf 镜像，并将镜像内的项目目录绑定到宿主机的 /docker_swoole 目录
+# docker run -it --name hyperf -p 9501:9501 hyperf/hyperf:latest
+# # -v /D/Hank/www/docker_swoole:/hyperf-skeleton
+
+# # 1.下載 composer
+# curl -sS https://getcomposer.org/installer | php
+# mv composer.phar /usr/local/bin/composer
+
+# # 2.将 Composer 镜像设置为阿里云镜像，加速国内下载速度
+# composer config -g repo.packagist composer https://mirrors.aliyun.com/composer
+
+# # 3.通过 Composer 安装 hyperf/hyperf-skeleton 项目
+# composer create-project hyperf/hyperf
+
+# # 4.进入安装好的 Hyperf 项目目录 启动 Hyperf
+# php bin/hyperf.php start
+
+# # 5.docker commit 把容器做成 image
+# docker commit -a "Hank" -m "hyperf" hyperf chaoslaplace/hyperf
+# docker push chaoslaplace/hyperf
+
+# version: '3'
+# services:
+  # hyperf:
+  #   # build: ./swoole_hyperf/hyperf-skeleton
+  #   image: chaoslaplace/hyperf
+  #   container_name: hyperf
+  #   restart: always
+  #   environment:
+  #     hyperf_port_in: ${hyperf_port_in}
+  #   ports:
+  #     - ${hyperf_port_out}:${hyperf_port_in}
+  #   depends_on:
+  #     - mariadb
+  #     - redis
+  #   # command: php hyperf-skeleton/bin/hyperf.php start
+  
+  # mariadb:
+  #   image: mariadb:10.2.24
+  #   container_name: mariadb
+  #   restart: always
+  #   environment:
+  #     MYSQL_USER: ${MYSQL_USER}
+  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #   ports:
+  #     - ${mysql_port_out}:${mysql_port_in}
+  #   # mariadb 更改儲存位置
+  #   volumes:
+  #     - D:\Hank\www\docker_db:/var/lib/mysql
+  #     # - /var/lib/mysql:/var/lib/mysql
+
+  # redis:
+  #   image: redis:3.0.6
+  #   container_name: redis
+  #   restart: always
+  #   ports:
+  #     - ${redis_port_out}:${redis_port_in}
+  #   # redis 更改儲存位置
+  #   volumes:
+  #     - D:\Hank\www\docker_redis:/data
+  #     # - /data:/data
