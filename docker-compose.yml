@@ -15,12 +15,36 @@ services:
       beego_port_in: ${beego_port_in}
     ports:
       - ${beego_port_out}:${beego_port_in}
-    # depends_on:
-    #   - mariadb
-    #   - redis
+    depends_on:
+      - mariadb
+      - redis
     # command: sh /go/src/beego.sh
     # command: bee run
     # command: nohup go run /go/src/beego/main.go &
+  mariadb:
+      image: mariadb:10.2.24
+      container_name: mariadb
+      restart: always
+      environment:
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      ports:
+        - ${mysql_port_out}:${mysql_port_in}
+      # mariadb 更改儲存位置
+      volumes:
+        - D:\Hank\www\docker_db:/var/lib/mysql
+        # - /var/lib/mysql:/var/lib/mysql
+
+  redis:
+    image: redis:3.0.6
+    container_name: redis
+    restart: always
+    ports:
+      - ${redis_port_out}:${redis_port_in}
+    # redis 更改儲存位置
+    volumes:
+      - D:\Hank\www\docker_redis:/data
+      # - /data:/data
 
 # hyperf
 # docker cp hyperf:/hyperf-skeleton ./docker_hyperf
